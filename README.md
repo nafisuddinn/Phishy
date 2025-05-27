@@ -1,8 +1,9 @@
 # Phishy 🐟
 
-# removed the "AI", keep it clean like "Facebook"
-
 **Detect and explain scam messages using Gemini AI + FastAPI + React**
+
+
+# removed the "AI", keep it clean like "Facebook"
 
 ---
 
