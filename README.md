@@ -1,9 +1,9 @@
 # Phishy 🐟
 
-**Detect and explain scam messages using Gemini AI + FastAPI + React**
+# **Detect and explain scam messages using Gemini AI + FastAPI + React**
 
 
-# removed the "AI", keep it clean like "Facebook"
+Removed the "AI", keep it clean like "Facebook"
 
 ---
 
@@ -24,12 +24,12 @@ Phishy AI analyzes any message (e.g. Instagram DM, SMS, or email) and tells you:
 
 ## 🛠 Tech Stack
 
-- 🧠 Google Gemini API — for natural language scam detection
-- ⚙️ FastAPI — lightweight Python backend
-- ⚛️ React (Vite) — responsive frontend
-- 🗃️ DynamoDB - AWS Cloud service to serve as a fast lightweight logging system
-- 🌐 Render — backend deployment
-- ✨ (Planned) Messenger API for Instagram (Meta integration)
+- 🧠 **Google Gemini API** — for natural language scam detection
+- ⚙️ **FastAPI** — lightweight Python backend
+- ⚛️ **React (Vite)** — responsive frontend
+- 🗃️ **DynamoDB** - AWS Cloud service to serve as a fast lightweight logging system
+- 🌐 **Render** — backend deployment
+- ✨ **(Planned)** Messenger API for Instagram (Meta integration)
 
 ---
 
