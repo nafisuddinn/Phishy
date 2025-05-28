@@ -33,12 +33,14 @@ table = dynamodb.Table("PhishyLogs")
 # Request body model
 class MessageInput(BaseModel):
     message: str #this is tied to the frontend constant
+    userId: str #this is to track user history
 
 # Function to log analysis result to DynamoDB
-def log_to_dynamo(message, confidence, scam_type, reason):
+def log_to_dynamo(message, confidence, scam_type, reason, user_id):
     try:
         table.put_item(Item={
             "id": str(uuid.uuid4()),
+            "userId": user_id,
             "timestamp": datetime.utcnow().isoformat(),
             "message": message, # items that have been parsed from the Gemini response
             "confidence": confidence,
@@ -48,11 +50,26 @@ def log_to_dynamo(message, confidence, scam_type, reason):
     except Exception as e:
         print("❌ DynamoDB log error:", str(e))
 
+
+@app.get("/history/{user_id}")
+def get_user_history(user_id: str):
+    try:
+        response = table.scan()
+        items = response.get("Items", [])
+        user_items = [item for item in items if item.get("userId") == user_id]
+        sorted_items = sorted(user_items, key=lambda x: x.get("timestamp", ""), reverse=True)
+        return {"items": sorted_items}
+    except Exception as e:
+        print("❌ Error in history fetch:", str(e))  # log it for debugging
+        raise HTTPException(status_code=500, detail="Error loading user scan history.")
+
+
+
 # Endpoint for analyzing messages
 @app.post("/analyze")
 def analyze_message(data: MessageInput): #the message is also recognized as "data"
     try:
-        prompt = generate_prompt(data.message) # message = data, therefore can be data.message -- generate_prompt(data.message) gets passed as "prompt" to then be inputted for a response.
+        prompt = generate_prompt(data.message) # = data from phishy_prompt.py, therefore can be data.message -- generate_prompt(data.message) gets passed as "prompt" to then be inputted for a response.
         response = model.generate_content(prompt) # model.generate_content is method for Gemini to produce a response. Therfore the production = response.
         result_text = response.text.strip() # we "strip" the response to be recognized by each word so then we can parse through them for results. Identified as "result_text"
         lines = result_text.splitlines() # the results can be outputted as lines in the frontend.
@@ -69,7 +86,7 @@ def analyze_message(data: MessageInput): #the message is also recognized as "dat
         reason_val = reason.replace("Reasoning behind your decision:", "").strip()
 
         # Log to DynamoDB
-        log_to_dynamo(data.message, confidence_val, scam_type_val, reason_val)
+        log_to_dynamo(data.message, confidence_val, scam_type_val, reason_val, data.userId)
 
         # Return to frontend -- changes the preset values of each category
         return {
