@@ -4,6 +4,7 @@
 
 
 Removed the "AI", keep it clean like "Facebook"
+SCALE 1 (My way of saying "version")
 
 ---
 
@@ -19,6 +20,7 @@ Phishy AI analyzes any message (e.g. Instagram DM, SMS, or email) and tells you:
 - 🧠 The type of scam (phishing, impersonation, etc.)
 - 📊 A confidence score from 0–100%
 - 📄 A short explanation of why it’s flagged
+- 📜 Shows the user's history of analyzed messages
 
 ---
 
