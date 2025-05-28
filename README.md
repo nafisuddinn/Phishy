@@ -3,9 +3,9 @@
 # **Detect and explain scam messages using Gemini AI + DynamoDB + FastAPI + React**
 
 
-Removed the "AI", keep it clean like "Facebook"
+Removed the "AI", kept it clean like "Facebook"
 
-SCALE 1 (My way of saying "version")
+SCALE 1 (My way of saying "version" but in fish terms)
 
 ---
 
@@ -43,7 +43,7 @@ Phishy AI analyzes any message (e.g. Instagram DM, SMS, or email) and tells you:
 3. Run the backend:
    ```bash
    uvicorn main:app --reload
-4. Run the front end
+4. Run the frontend
     ```bash
    cd phishy-ai-frontend
     npm install
