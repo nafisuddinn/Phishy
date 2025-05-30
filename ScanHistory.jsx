@@ -4,7 +4,7 @@ function ScanHistory() {
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5; /*max number of rows per page*/
+  const itemsPerPage = 4; /*max number of rows per page*/
 
   useEffect(() => {
     const userId = localStorage.getItem("phishy-user-id");
@@ -31,7 +31,7 @@ function ScanHistory() {
 
   return (
     <div className="history">
-      <h2>My Scan History</h2>
+      <h2>My Scan History 📜</h2>
       {history.length === 0 ? (
         <p>No past scans found.</p>
       ) : (
