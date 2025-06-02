@@ -18,7 +18,9 @@ load_dotenv()
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  #React dev server
+    allow_origins=[
+        "http://localhost:5173",
+        "https://phishy-liart.vercel.app/"],  #React dev server & the hosted frontend on vercel
     allow_credentials=True,
     allow_methods=["*"],                     
     allow_headers=["*"],
@@ -115,11 +117,14 @@ def get_heatmap_data():
             key = (item["lat"], item["lon"])
             freq_map[key] = freq_map.get(key, 0) + 1
 
+
+        max_count = max(freq_map.values(), default=1)
+
         heat_feed = [
             {
                 "lat": lat,
                 "lon": lon,
-                "intensity": count
+                "intensity": round((count / max_count) * 1.0, 2)  # scaled 0.0–1.0
             }
             for (lat, lon), count in freq_map.items()
         ]
