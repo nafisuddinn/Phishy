@@ -49,7 +49,7 @@ function App() {
       const { latitude, longitude } = position.coords;
 
     try {
-      const response = await fetch('${API_BASE}/analyze', {
+      const response = await fetch(`${API_BASE}/analyze`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 

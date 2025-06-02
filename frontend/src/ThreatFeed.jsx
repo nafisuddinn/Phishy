@@ -9,7 +9,7 @@ function ThreatFeed() {
 
 
   useEffect(() => {
-    fetch('${API_BASE}/feed')
+    fetch(`${API_BASE}/feed`)
       .then(res => res.json())
       .then(data => {
         setFeed(data.feed || []);

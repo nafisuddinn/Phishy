@@ -43,7 +43,7 @@ function ThreatMap({ onBack }) {
   const [heatPoints, setHeatPoints] = useState([]);
 
   useEffect(() => {
-    fetch('${API_BASE}/heatmap')  // Make sure this is the endpoint that returns lat, lon, intensity
+    fetch(`${API_BASE}/heatmap`)  // Make sure this is the endpoint that returns lat, lon, intensity
       .then(res => res.json())
       .then(data => {
         const points = (data.feed || []).map(entry => [
