@@ -10,7 +10,7 @@ SCALE 2 (My way of saying "version" but in fish terms)
 ---
 
 ## 🚀 Demo
-[Live Demo Link] (once deployed)
+[https://phishy-liart.vercel.app/] 
 
 ---
 
@@ -35,6 +35,7 @@ Phishy AI analyzes any message (e.g. Instagram DM, SMS, or email) and tells you:
 - ⚛️ **React (Vite)** — responsive frontend
 - 🗃️ **DynamoDB** - AWS Cloud service to serve as a fast lightweight logging system
 - 🌐 **Render** — backend deployment
+- 💻 **Vercel** - frontend deployment
 - ✨ **(Planned)** Messenger API for Instagram (Meta integration)
 
 ---
