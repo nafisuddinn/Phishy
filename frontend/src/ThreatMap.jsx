@@ -4,6 +4,9 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet.heat';
 
+const API_BASE = import.meta.env.VITE_API_URL;
+
+
 function HeatLayer({ heatPoints }) {
   const map = useMap();
 
@@ -19,7 +22,13 @@ function HeatLayer({ heatPoints }) {
 
     const heat = L.heatLayer(heatPoints, {
       radius: 25,
-      maxZoom: 15,
+      blur: 20,
+      maxZoom: 10,
+      gradient: {
+        0.2: 'yellow',
+        0.5: 'orange',
+        0.8: 'red'
+      }
     }).addTo(map);
 
     return () => {
@@ -30,11 +39,11 @@ function HeatLayer({ heatPoints }) {
   return null;
 }
 
-function ThreatMap() {
+function ThreatMap({ onBack }) {
   const [heatPoints, setHeatPoints] = useState([]);
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/heatmap')  // Make sure this is the endpoint that returns lat, lon, intensity
+    fetch('${API_BASE}/heatmap')  // Make sure this is the endpoint that returns lat, lon, intensity
       .then(res => res.json())
       .then(data => {
         const points = (data.feed || []).map(entry => [
@@ -48,9 +57,10 @@ function ThreatMap() {
   }, []);
 
   return (
-    <div className="map-wrapper">
+    <div className="map-page">
+      <button className="back-button" onClick={onBack}>← Back to Analyzer</button>
       <h2>🌍 Scam Heatmap</h2>
-      <MapContainer center={[40.7128, -74.0060]} zoom={3} style={{ height: '500px', width: '100%' }}>
+      <MapContainer center={[40.7128, -74.0060]} zoom={3} className="leaflet-container">
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution="© OpenStreetMap contributors"

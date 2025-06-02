@@ -172,13 +172,16 @@ h2{
 
 
 .legend {
- background: radial-gradient(circle,rgba(222, 197, 197, 1) 0%, rgba(24, 108, 204, 1) 100%);
+
   padding: 10px;
-  border-radius: 8px;
-  width: fit-content;
+  border-radius: 10px;
+  width: 500px;
   margin: 10px auto;
   font-size: 14px;
-  box-shadow: 0 0 8px rgba(0,0,0,0.3);
+  text-align: center;
+
+
+  
 }
 
 .legend-box {
@@ -186,7 +189,7 @@ h2{
   width: 16px;
   height: 16px;
   margin-right: 8px;
-  border-radius: 3px;
+ 
 }
 
 .legend-box.high {
@@ -200,9 +203,25 @@ h2{
 }
 
 
+.map-page {
+  padding: 10px;
+  background: radial-gradient(circle, rgba(222, 197, 197, 1) 0%, rgba(24, 108, 204, 1) 100%);
+  min-height: 80vh;
+  border-radius: 20px;
+  justify-content: center;
+}
+
+.back-button {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+}
+
 .leaflet-container {
-  height: 500px !important;
-  width: 100% !important;
-  z-index: 0;
-  border-radius: 8px;
+  height: 300px;
+  width: 500px;
+  margin-left: 12.5px;
+  border-radius: 20px;
+  justify-content: center;
 }

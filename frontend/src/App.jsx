@@ -20,6 +20,8 @@ function App() {
   const [showHistory, setShowHistory] = useState(false);
   const [showFeed, setShowFeed] = useState(false);
   const [showMap, setShowMap] = useState(false);
+  const API_BASE = import.meta.env.VITE_API_URL;
+
 
 
 
@@ -47,7 +49,7 @@ function App() {
       const { latitude, longitude } = position.coords;
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/analyze', {
+      const response = await fetch('${API_BASE}/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
@@ -86,89 +88,67 @@ function App() {
 
 
   return (
-    <>
-  <div className="container">
-    <h1>Phishy 🐟</h1>
-
-    {showHistory ? (
-      <>
-        <ScanHistory />
-        <div className="button-row">
-          <button className="history-button" onClick={() => setShowHistory(false)}>
-            ← Back to Analyzer
-          </button>
-        </div>
-      </> )
-
-      :showFeed ? (
-        <>
-        <ThreatFeed />
-        <div className = "button-row">
-          <button className="feed-button" onClick={() => setShowFeed(false)}>
-            ← Back to Analyzer
-          </button>
-        </div>
-        </>
-      
-
+  <>
+    {showMap ? (
+      <div className="map-fullscreen">
+        <ThreatMap onBack={() => setShowMap(false)} />
+      </div>
     ) : (
-      <>
-        <p>Paste a suspicious message to analyze:</p>
-        <textarea
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          placeholder="e.g. 'You won a free iPhone!'"
-        />
+      <div className="container">
+        <h1>Phishy 🐟</h1>
 
-       <div className="button-row">
-         {!showHistory && !showFeed && (
-          <button onClick={analyzeMessage} disabled={loading}>
-            {loading ? 'Analyzing...' : 'Analyze'}
-            </button>
-           )}
-            {!showFeed && (
-              <button onClick={() => setShowHistory(!showHistory)}>
-                {showHistory ? "← Back to Analyzer" : "📜 View My Scan History"}
-                </button>
-              )}
-              <button onClick={() => {
-                setShowFeed(!showFeed);
-                setShowHistory(false); // ensure only one view at a time
-                }}>
-                  {showFeed ? "← Back to Analyzer" : "🌍 View Community Threat Feed"}
-                  </button>
-                  </div>
-                  
-                  <button onClick={() => {
-                    setShowMap(!showMap);
-                    setShowHistory(false);
-                    setShowFeed(false);
-                    }}>
-                      {showMap ? "← Back to Analyzer" : "🗺️ View Scam Location Map"}
-                      </button>
-                      
-        {error && <p className="error">{error}</p>}
+        {showHistory ? (
+          <>
+            <ScanHistory />
+            <div className="button-row">
+              <button className="history-button" onClick={() => setShowHistory(false)}>
+                ← Back to Analyzer
+              </button>
+            </div>
+          </>
+        ) : showFeed ? (
+          <>
+            <ThreatFeed />
+            <div className="button-row">
+              <button className="feed-button" onClick={() => setShowFeed(false)}>
+                ← Back to Analyzer
+              </button>
+            </div>
+          </>
+        ) : (
+          <>
+            <p>Paste a suspicious message to analyze:</p>
+            <textarea
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              placeholder="e.g. 'You won a free iPhone!'"
+            />
 
-        {(verdict || confidence || scamType || reason) && (
-          <div className="result response-container">
-            <p><strong>Scam Verdict:</strong> {verdict}</p>
-            <p><strong>Scam Type:</strong> {scamType}</p>
-            <p><strong>Chance of Scam:</strong> {confidence}</p>
-            <p><strong>Reason:</strong> {reason}</p>
-          </div>
+            <div className="button-row">
+              <button onClick={analyzeMessage} disabled={loading}>
+                {loading ? 'Analyzing...' : 'Analyze'}
+              </button>
+              <button onClick={() => setShowHistory(true)}>📜 View My Scan History</button>
+              <button onClick={() => setShowFeed(true)}>🌍 View Community Threat Feed</button>
+              <button onClick={() => setShowMap(true)}>🗺️ View Scam Location Map</button>
+            </div>
+
+            {error && <p className="error">{error}</p>}
+
+            {(verdict || confidence || scamType || reason) && (
+              <div className="result response-container">
+                <p><strong>Scam Verdict:</strong> {verdict}</p>
+                <p><strong>Scam Type:</strong> {scamType}</p>
+                <p><strong>Chance of Scam:</strong> {confidence}</p>
+                <p><strong>Reason:</strong> {reason}</p>
+              </div>
+            )}
+          </>
         )}
-      </>
-    )}
-  </div>
-  
-  {showMap && (
-      <div className="map-wrapper">
-        <ThreatMap />
       </div>
     )}
-    </>
-  );
+  </>
+);
 }
-
 
 export default App;
