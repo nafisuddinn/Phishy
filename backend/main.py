@@ -20,7 +20,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",
-        "https://phishy-liart.vercel.app/"],  #React dev server & the hosted frontend on vercel
+        "https://phishy-liart.vercel.app"],  #React dev server & the hosted frontend on vercel
     allow_credentials=True,
     allow_methods=["*"],                     
     allow_headers=["*"],
