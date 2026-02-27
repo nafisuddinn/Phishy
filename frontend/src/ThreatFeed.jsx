@@ -5,7 +5,7 @@ function ThreatFeed() {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4; /*max number of rows per page*/
-  const API_BASE = import.meta.env.VITE_API_URL;
+  const API_BASE = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
 
 
   useEffect(() => {
