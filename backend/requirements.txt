@@ -1,6 +1,6 @@
 # These are the dependencies that the project relies on. All of these must be downloaded in order to run Phishy AI.
 fastapi
 uvicorn
-google-generativeai
+google-genai
 python-dotenv
 boto3

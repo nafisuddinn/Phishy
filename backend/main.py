@@ -4,10 +4,10 @@ from datetime import datetime
 from decimal import Decimal
 
 import boto3
-import google.generativeai as genai
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from google import genai
 from pydantic import BaseModel, Field
 
 from phishy_prompt import generate_prompt
@@ -28,11 +28,11 @@ app.add_middleware(
 )
 
 # Set up Google Gemini API
-GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
-model = None
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY") or os.getenv("GEMINI_API_KEY")
+GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash-lite")
+client = None
 if GOOGLE_API_KEY:
-    genai.configure(api_key=GOOGLE_API_KEY)
-    model = genai.GenerativeModel("gemini-1.5-flash")
+    client = genai.Client(api_key=GOOGLE_API_KEY)
 
 # Set up AWS DynamoDB client -- use logs for history and community feeds
 DYNAMO_TABLE_NAME = os.getenv("DYNAMODB_TABLE", "PhishyLogs")
@@ -160,13 +160,15 @@ def get_heatmap_data():
 
 @app.post("/analyze")
 def analyze_message(data: MessageInput):
-    if model is None:
+    if client is None:
         raise HTTPException(status_code=500, detail="Server missing GOOGLE_API_KEY configuration.")
 
     try:
         prompt = generate_prompt(data.message)
-        response = model.generate_content(prompt)
-        result_text = response.text.strip()
+        response = client.models.generate_content(model=GEMINI_MODEL, contents=prompt)
+        result_text = (response.text or "").strip()
+        if not result_text:
+            raise HTTPException(status_code=500, detail="Gemini returned an empty response.")
         lines = result_text.splitlines()
 
         confidence = next((line for line in lines if "Confidence:" in line), "Confidence: Unknown")
