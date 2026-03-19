@@ -23,7 +23,7 @@ Phishy AI analyzes any message (e.g. Instagram DM, SMS, or email) and tells you:
 - 📄 A short explanation of why it’s flagged
 - 📜 Shows the user's history of analyzed messages
 - 🌐 Community threat feeds, shows the latest scams happening now!
-- 🗺️ Heatmap to show the concentration of scams occuring in specfic areas
+- 🗺️ Heatmap to show the concentration of scams occurring in specific areas
 
 ---
 
